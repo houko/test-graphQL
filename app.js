@@ -4,7 +4,10 @@ const {ApolloServer, gql} = require("apollo-server");
 const typeDefs = gql`
     type Query {
         hello: String,
-        ping: String
+        ping: String,
+        price: Int,
+        PI: Float,
+        isVIP: Boolean
     }
 `;
 
@@ -16,7 +19,10 @@ const resolvers = {
         },
         ping: () => {
             return "pong";
-        }
+        },
+        price:()=> 1 ,
+        PI: ()=> 3.14,
+        isVIP: ()=> false
     }
 }
 
