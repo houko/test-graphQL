@@ -1,6 +1,9 @@
 exports.Mutation = {
     addSite: (parent, {input}, context) => {
-        const {sites} = context;
+        const {authInfo, sites} = context;
+        if (!authInfo) {
+            throw new Error('You are not authorized to update sites');
+        }
         const newSite = {
             id: sites.length + 1,
             title: input.title,
