@@ -6,7 +6,13 @@ const query = {
             return "GraphQL!"
         },
         book: () => ['n1', 'n2', 'n3'],
-        sites: () => sites,
+        sites: (parent, {filter}, {sites}) => {
+            let resultSites = sites;
+            if (filter) {
+                resultSites = resultSites.filter(item => item.pageViews > filter.pageViews)
+            }
+            return resultSites
+        },
         categories: () => {
             return categories
         },

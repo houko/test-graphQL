@@ -17,9 +17,12 @@ const typeDefs = gql`
         hello: String!,
         book: [String],
         categories: [Category],
-        sites:[Site],
+        sites(filter: MySiteFilter):[Site],
         site(id: Int!): Site
         category(id: String!): [Site]
+    }
+    input MySiteFilter{
+        pageViews: Int!
     }
 `;
 
