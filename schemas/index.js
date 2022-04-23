@@ -24,6 +24,17 @@ const typeDefs = gql`
     input MySiteFilter{
         pageViews: Int!
     }
+    type Mutation{
+        addSite(input: SiteInput!): Site,
+        updateSite(id: Int!, input: SiteInput!): Site,
+        deleteSite(id: Int!): Site
+    }
+    input SiteInput{
+        title: String,
+        url: String,
+        logo: String,
+        category: String
+    }
 `;
 
 module.exports = typeDefs

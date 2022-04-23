@@ -1,29 +1,6 @@
-schema
-
-```
-    type Mutation{
-        addSite(input: SiteInput!): Site,
-        updateSite(id: Int!, input: SiteInput!): Site,
-        deleteSite(id: Int!): Site, 
-    }
-
-    input SiteInput{
-        title: String,
-        url: String,
-        logo: String,
-        category: String
-    }
-    
-```
-
-resolvers
-
-```
-    // resolvers/Mutation.js
-    exports.Mutation = {
+exports.Mutation = {
     addSite: (parent, {input}, context) => {
         const {sites} = context;
-
         const newSite = {
             id: sites.length + 1,
             title: input.title,
@@ -35,7 +12,7 @@ resolvers
         sites.push(newSite);
         return newSite;
     },
-        updateSite: (parent, {id, input}, context) => {
+    updateSite: (parent, {id, input}, context) => {
         const {sites} = context;
         const site = sites.find(site => site.id === id);
         if (!site) {
@@ -50,6 +27,7 @@ resolvers
     deleteSite: (parent, {id}, context) => {
         const {sites} = context;
         const site = sites.find(site => site.id === id);
+        console.log(site)
         if (!site) {
             throw new Error(`Site with id ${id} not found`);
         }
@@ -57,29 +35,3 @@ resolvers
         return site;
     },
 }
-    
-    
-// resolvers/index.js
-const resolvers = {
-    Query: require('./Query').Query,
-    Mutation: require('./Mutation').Mutation,
-}
-
-module.exports = resolvers
-    
-    
-```
-
-query
-
-```
-    
-
-```
-
-query result
-
-```
-
-
-```
