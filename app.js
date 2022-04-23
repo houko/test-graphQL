@@ -1,38 +1,7 @@
 const {ApolloServer, gql} = require("apollo-server");
 
-const dataList = [
-    {
-        id: 1,
-        title: "linux",
-        url: "https://linux.org",
-        pageViews: 333
-    },
-    {
-        id: 2,
-        title: "java",
-        url: "https://linux.org",
-        pageViews: 1
-    },
-    {
-        id: 3,
-        title: "golang",
-        url: "https://linux.org",
-        pageViews: 5523
-    },
-    {
-        id: 4,
-        title: "graphQL",
-        url: "https://linux.org",
-        pageViews: 123
-    },
-    {
-        id: 5,
-        title: "dash",
-        url: "https://linux.org",
-        pageViews: 11111
-    }
-]
-
+const sites = require('./data/sites').sites;
+const categories = require('./data/categories').categories;
 
 const typeDefs = gql`
     type Site{
@@ -40,12 +9,21 @@ const typeDefs = gql`
         title: String!,
         url: String,
         pageViews: Int,
+        category: String
+    },
+    type Category{
+        id: String!,
+        desc: String,
+        showOrder: Int,
+        display: String
     },
     type Query {
         hello: String!,
         book: [String],
+        categories: [Category],
         sites:[Site],
         site(id: Int!): Site
+        category(id: String!): [Site]
     }
 `;
 
@@ -56,9 +34,16 @@ const resolvers = {
             return "GraphQL!"
         },
         book: () => ['n1', 'n2', 'n3'],
-        sites: () => dataList,
+        sites: () => sites,
+        categories: () => {
+            return categories
+        },
+        category: (parent, args, context) => {
+            const {id} = args;
+            return sites.filter(item => item.id === id)
+        },
         site: (parent, args, context) => {
-            return dataList.find(item => {
+            return sites.find(item => {
                 return item.id === args.id
             })
         }
