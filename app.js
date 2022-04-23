@@ -1,6 +1,12 @@
 const {ApolloServer, gql} = require("apollo-server");
 
 
+const context = {
+    add: (x, y) => x + y,
+    minus: (x, y) => x - y
+}
+
+
 const typeDefs = gql`
     type Query {
         hello: String!,
@@ -20,16 +26,22 @@ const resolvers = {
         // ping: () => {
         //     return "pong";
         // },
-        price:()=> 1 ,
-        PI: ()=> 3.14,
-        isVIP: ()=> false
+        price: (parent, args, context) => {
+            const {add} = context
+            let data = add(1, 2);
+            console.log(data)
+            return data;
+        },
+        PI: () => 3.14,
+        isVIP: () => false
     }
 }
 
 
 const server = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers,
+    context
 })
 
 
